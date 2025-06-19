@@ -1,14 +1,15 @@
-import { prisma } from '../prisma/client';
-import { Task } from '@prisma/client';
+import { PrismaClient, Task } from '@prisma/client';
 import { CreateTaskInput } from '../dto/task.dto';
 
 export class TaskService {
-  static async getAll(params?: { status?: string; page?: number; pageSize?: number }): Promise<Task[]> {
+  constructor(private prisma: PrismaClient) {}
+
+  async getAll(params?: { status?: string; page?: number; pageSize?: number }): Promise<Task[]> {
     const { status, page = 1, pageSize = 10 } = params || {};
 
     const filters = status ? { status } : {};
 
-    return prisma.task.findMany({
+    return this.prisma.task.findMany({
       where: filters,
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * pageSize,
@@ -16,24 +17,24 @@ export class TaskService {
     });
   }
 
-  static async getById(id: string): Promise<Task | null> {
-    return prisma.task.findUnique({ where: { id } });
+  async getById(id: string): Promise<Task | null> {
+    return this.prisma.task.findUnique({ where: { id } });
   }
 
-  static async create(data: CreateTaskInput): Promise<Task> {
-    return prisma.task.create({ data });
+  async create(data: CreateTaskInput): Promise<Task> {
+    return this.prisma.task.create({ data });
   }
 
-  static async update(id: string, data: Partial<Task>): Promise<Task | null> {
-    return prisma.task.update({
+  async update(id: string, data: Partial<Task>): Promise<Task | null> {
+    return this.prisma.task.update({
       where: { id },
       data,
     }).catch(() => null);
   }
 
-  static async delete(id: string): Promise<boolean> {
+  async delete(id: string): Promise<boolean> {
     try {
-      await prisma.task.delete({ where: { id } });
+      await this.prisma.task.delete({ where: { id } });
       return true;
     } catch {
       return false;
