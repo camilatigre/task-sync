@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { TaskList } from '@/components/task-list';
 import { useTasks } from '@/context/tasks/use-tasks';
 import { TaskModal } from '@/components/task-modal';
+import { useSocket } from '@/hooks/use-sockets';  
 import type { Task } from '@/types/task';
 
 export const TaskPage = () => {
   const { tasks, dispatch, isLoading, error } = useTasks();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useSocket();
 
   const handleEdit = (id: string) => {
     console.log('Edit task', id);
@@ -16,9 +19,20 @@ export const TaskPage = () => {
     dispatch({ type: 'DELETE_TASK', payload: id });
   };
 
-  const handleCreate = (task: Partial<Task>) => {
-    dispatch({ type: 'CREATE_TASK', payload: { ...task, id: crypto.randomUUID() } as Task });
+  const handleCreate = async (task: Partial<Task>) => {
+    try {
+      await fetch('http://localhost:3333/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task),
+      });
+
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Failed to create task', error);
+    }
   };
+  
 
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-6">

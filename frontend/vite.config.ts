@@ -8,5 +8,13 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
-  }
+  },
+  server: {
+    proxy: {
+      '/socket.io': {
+        target: 'http://localhost:3333',
+        ws: true,
+      },
+    },
+  },
 })

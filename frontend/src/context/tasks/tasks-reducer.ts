@@ -11,7 +11,8 @@ export type TasksAction =
   | { type: 'FETCH_SUCCESS'; payload: Task[] }
   | { type: 'FETCH_ERROR'; payload: string }
   | { type: 'DELETE_TASK'; payload: string }
-  | { type: 'CREATE_TASK'; payload: Task };
+  | { type: 'CREATE_TASK'; payload: Task }
+  | { type: 'UPDATE_TASK'; payload: Task };
 
 export const initialState: TasksState = {
   tasks: [],
@@ -34,9 +35,16 @@ export function tasksReducer(state: TasksState, action: TasksAction): TasksState
       };
     }
     case 'CREATE_TASK': {
+      if (state.tasks.some(t => t.id === action.payload.id)) return state;
       return {
         ...state,
         tasks: [...state.tasks, action.payload],
+      };
+    }
+    case 'UPDATE_TASK': {
+      return {
+        ...state,
+        tasks: state.tasks.map(task => task.id === action.payload.id ? action.payload : task),
       };
     }
     default:

@@ -12,14 +12,19 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-const io = new Server(server, {
+export const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: 'http://localhost:5173', 
+    methods: ['GET', 'POST'],
+    credentials: true,
   },
 });
 
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(express.json());
 
 app.use('/tasks', taskRoutes);
@@ -41,5 +46,3 @@ const PORT = process.env.PORT || 3333;
 server.listen(PORT, () => {
   console.log(`🚀 Server listening on http://localhost:${PORT}`);
 });
-
-export { io };

@@ -21,16 +21,30 @@ export const TasksProvider = ({ children }: { children: ReactNode }) => {
     const fetchTasks = async () => {
       dispatch({ type: 'FETCH_START' });
       try {
-        const res = await fetch('http://localhost:3333/tasks');
+        const res = await fetch('http://localhost:3333/tasks', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (!res.ok) {
+          throw new Error('Failed to fetch tasks');
+        }
+  
         const data = await res.json();
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-      } catch {
-        dispatch({ type: 'FETCH_ERROR', payload: 'Failed to fetch tasks' });
+      } catch (error) {
+        dispatch({
+          type: 'FETCH_ERROR',
+          payload: error instanceof Error ? error.message : 'Unknown error',
+        });
       }
     };
-
+  
     fetchTasks();
   }, []);
+
 
   return (
     <TasksContext.Provider value={{ state, dispatch }}>
