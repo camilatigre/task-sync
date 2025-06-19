@@ -3,6 +3,7 @@ import http from 'http';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import dotenv from 'dotenv';
+import taskRoutes from './routes/task.routes';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
+app.use('/tasks', taskRoutes);
 app.get('/', (_, res) => {
   res.send('API is running 🚀');
 });
