@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { TaskModal } from './task-modal';
 import { act } from 'react';
+import { TaskModal } from './task-modal';
 
 describe('TaskModal', () => {
   it('renders with empty form when no initialValues', async () => {
