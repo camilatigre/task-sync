@@ -12,6 +12,7 @@ This is the backend of the Task Sync project built with Node.js, TypeScript, Exp
 * Dockerized development environment
 * Centralized error handling
 * Paginated and filtered endpoints
+* Seed script for initial data population
 
 ---
 
@@ -50,7 +51,13 @@ npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-### 6. Start development server
+### 6. Seed the database (optional)
+
+```bash
+npm run seed
+```
+
+### 7. Start development server
 
 ```bash
 npm run dev
@@ -95,7 +102,7 @@ src/
 # Reset database (will delete all data!)
 npx prisma migrate reset
 
-# Seed (to be implemented)
+# Seed with initial data
 npm run seed
 ```
 
@@ -123,14 +130,19 @@ npm run seed
 
 > The `GET /tasks` endpoint supports optional query parameters (`status`, `page`, `pageSize`) for real-world scalability.
 
+### Seed Script
+
+> A seed script (`npm run seed`) was added to easily populate the database with example tasks for local development.
+
 ---
 
 ## 🎓 Suggestions for Future Improvements
 
 * [ ] Add authentication & authorization layer (JWT)
+* [ ] Add logging with Winston
+* [x] Add seed script for development
 * [ ] Add Swagger UI documentation via `swagger-ui-express`
-* [ ] Add seeding script with mock data
 * [ ] Add unit & integration tests with Jest + Supertest
 * [ ] Enable ESLint/Prettier config for linting
 * [ ] Apply JSDoc to services and DTOs
-* [ ] Add a pre-hook using Husky to ensure all commits follow the  [Conventional Commits](https://www.conventionalcommits.org/) standard
+* [ ] Add a pre-hook using Husky to ensure all commits follow the [Conventional Commits](https://www.conventionalcommits.org/) standard
