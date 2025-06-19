@@ -1,8 +1,18 @@
 import { PrismaClient, Task } from '@prisma/client';
 import { CreateTaskInput } from '../dto/task.dto';
+import { prisma } from '../prisma/client';
 
 export class TaskService {
-  constructor(private prisma: PrismaClient) {}
+  private static instance: TaskService;
+  
+  private constructor(private prisma: PrismaClient) {}
+
+  static getInstance(): TaskService {
+    if (!TaskService.instance) {
+      TaskService.instance = new TaskService(prisma);
+    }
+    return TaskService.instance;
+  }
 
   async getAll(params?: { status?: string; page?: number; pageSize?: number }): Promise<Task[]> {
     const { status, page = 1, pageSize = 10 } = params || {};
