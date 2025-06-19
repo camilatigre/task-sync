@@ -133,3 +133,4 @@ npm run seed
 * [ ] Add unit & integration tests with Jest + Supertest
 * [ ] Enable ESLint/Prettier config for linting
 * [ ] Apply JSDoc to services and DTOs
+* [ ] Add a pre-hook using Husky to ensure all commits follow the  [Conventional Commits](https://www.conventionalcommits.org/) standard
