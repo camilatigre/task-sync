@@ -6,7 +6,7 @@ import type { Task } from '@/types/task';
 const taskSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().optional(),
-  status: z.enum(['pending', 'in_progress', 'completed']),
+  status: z.enum(['pending', 'in-progress', 'done']),
 });
 
 type TaskFormProps = {
@@ -75,8 +75,8 @@ export const TaskForm: FC<TaskFormProps> = ({ initialValues, onSubmit, onCancel 
           className="w-full border px-3 py-2 rounded"
         >
           <option value="pending">Pending</option>
-          <option value="in_progress">In Progress</option>
-          <option value="completed">Completed</option>
+          <option value="in-progress">In Progress</option>
+          <option value="done">Done</option>
         </select>
       </div>
 

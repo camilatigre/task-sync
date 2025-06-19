@@ -19,12 +19,12 @@ describe('TaskForm', () => {
     const handleSubmit = jest.fn();
     render(<TaskForm onSubmit={handleSubmit} />);
     fireEvent.change(screen.getByLabelText(/title/i), { target: { value: 'New Task' } });
-    fireEvent.change(screen.getByLabelText(/status/i), { target: { value: 'completed' } });
+    fireEvent.change(screen.getByLabelText(/status/i), { target: { value: 'done' } }); 
     fireEvent.click(screen.getByText(/save/i));
     expect(handleSubmit).toHaveBeenCalledWith({
       title: 'New Task',
       description: '',
-      status: 'completed',
+      status: 'done',
     });
   });
 });
