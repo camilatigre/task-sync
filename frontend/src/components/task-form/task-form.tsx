@@ -24,7 +24,9 @@ export const TaskForm: FC<TaskFormProps> = ({ initialValues, onSubmit, onCancel 
 
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -42,8 +44,9 @@ export const TaskForm: FC<TaskFormProps> = ({ initialValues, onSubmit, onCancel 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 bg-white p-4 rounded-xl shadow">
       <div>
-        <label className="block mb-1 font-medium">Title</label>
+        <label htmlFor="title" className="block mb-1 font-medium">Title</label>
         <input
+          id="title"
           name="title"
           value={form.title}
           onChange={handleChange}
@@ -52,8 +55,9 @@ export const TaskForm: FC<TaskFormProps> = ({ initialValues, onSubmit, onCancel 
       </div>
 
       <div>
-        <label className="block mb-1 font-medium">Description</label>
+        <label htmlFor="description" className="block mb-1 font-medium">Description</label>
         <textarea
+          id="description"
           name="description"
           value={form.description}
           onChange={handleChange}
@@ -62,8 +66,9 @@ export const TaskForm: FC<TaskFormProps> = ({ initialValues, onSubmit, onCancel 
       </div>
 
       <div>
-        <label className="block mb-1 font-medium">Status</label>
+        <label htmlFor="status" className="block mb-1 font-medium">Status</label>
         <select
+          id="status"
           name="status"
           value={form.status}
           onChange={handleChange}
@@ -78,8 +83,19 @@ export const TaskForm: FC<TaskFormProps> = ({ initialValues, onSubmit, onCancel 
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
       <div className="flex justify-end gap-2">
-        {onCancel && <button type="button" onClick={onCancel} className="text-gray-600 hover:underline">Cancel</button>}
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="text-gray-600 hover:underline"
+          >
+            Cancel
+          </button>
+        )}
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
           Save
         </button>
       </div>
