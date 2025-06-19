@@ -4,6 +4,8 @@ import cors from 'cors';
 import { Server } from 'socket.io';
 import dotenv from 'dotenv';
 import taskRoutes from './routes/task.routes';
+import { errorHandler } from './middlewares/error-handler';
+import type { ErrorRequestHandler } from 'express';
 
 dotenv.config();
 
@@ -24,6 +26,7 @@ app.use('/tasks', taskRoutes);
 app.get('/', (_, res) => {
   res.send('API is running 🚀');
 });
+app.use(errorHandler as ErrorRequestHandler);
 
 
 io.on('connection', (socket) => {

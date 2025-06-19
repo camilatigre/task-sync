@@ -1,47 +1,60 @@
 import { Request, Response } from 'express';
 import { TaskService } from '../services/task.service';
+import { AppError } from '../errors/app-error';
 
 export class TaskController {
-  static async getAll(req: Request, res: Response): Promise<void> {
+  static async list(req: Request, res: Response) {
     const tasks = await TaskService.getAll();
-    res.status(200).json(tasks);
+    return res.json(tasks);
   }
 
-  static async getById(req: Request, res: Response): Promise<void> {
-    const task = await TaskService.getById(req.params.id);
+  static async get(req: Request, res: Response) {
+    const { id } = req.params;
+    const task = await TaskService.getById(id);
 
-    if (task === null) {
-      res.status(404).json({ message: 'Task not found' });
-      return;
+    if (!task) {
+      throw new AppError('Task not found', 404);
     }
 
-    res.status(200).json(task);
+    return res.json(task);
   }
 
-  static async create(req: Request, res: Response): Promise<void> {
-    const newTask = await TaskService.create(req.body);
-    res.status(201).json(newTask);
-  }
+  static async create(req: Request, res: Response) {
+    const { title, description, status } = req.body;
 
-  static async update(req: Request, res: Response): Promise<void> {
-    const updatedTask = await TaskService.update(req.params.id, req.body);
-
-    if (updatedTask === null) {
-      res.status(404).json({ message: 'Task not found' });
-      return;
+    if (!title) {
+      throw new AppError('Title is required', 400);
     }
 
-    res.status(200).json(updatedTask);
+    if (!status) {
+      throw new AppError('Status is required', 400);
+    }
+
+    const task = await TaskService.create({ title, description, status });
+    return res.status(201).json(task);
   }
 
-  static async delete(req: Request, res: Response): Promise<void> {
-    const deleted = await TaskService.delete(req.params.id);
+  static async update(req: Request, res: Response) {
+    const { id } = req.params;
+    const { title, description, status } = req.body;
+
+    const updated = await TaskService.update(id, { title, description, status });
+
+    if (!updated) {
+      throw new AppError('Task not found', 404);
+    }
+
+    return res.json(updated);
+  }
+
+  static async delete(req: Request, res: Response) {
+    const { id } = req.params;
+    const deleted = await TaskService.delete(id);
 
     if (!deleted) {
-      res.status(404).json({ message: 'Task not found' });
-      return;
+      throw new AppError('Task not found', 404);
     }
 
-    res.status(204).send();
+    return res.status(204).send();
   }
 }

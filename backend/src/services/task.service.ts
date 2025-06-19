@@ -24,7 +24,7 @@ export class TaskService {
     return prisma.task.update({
       where: { id },
       data,
-    }).catch(() => null); // Garante retorno null se não existir
+    }).catch(() => null);
   }
 
   static async delete(id: string): Promise<boolean> {
