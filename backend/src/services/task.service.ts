@@ -1,11 +1,6 @@
 import { prisma } from '../prisma/client';
 import { Task } from '@prisma/client';
-
-export type CreateTaskInput = {
-  title: string;
-  description?: string | null;
-  status: string;
-};
+import { CreateTaskInput } from '../dto/task.dto';
 
 export class TaskService {
   static async getAll(params?: { status?: string; page?: number; pageSize?: number }): Promise<Task[]> {
