@@ -13,3 +13,5 @@ yarn-error.log*
 
 # Mac/Linux
 .DS_Store
+
+/src/generated/prisma
