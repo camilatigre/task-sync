@@ -9,7 +9,8 @@ export type TasksState = {
 export type TasksAction =
   | { type: 'FETCH_START' }
   | { type: 'FETCH_SUCCESS'; payload: Task[] }
-  | { type: 'FETCH_ERROR'; payload: string };
+  | { type: 'FETCH_ERROR'; payload: string }
+  | { type: 'DELETE_TASK'; payload: string };
 
 export const initialState: TasksState = {
   tasks: [],
@@ -25,6 +26,12 @@ export function tasksReducer(state: TasksState, action: TasksAction): TasksState
       return { ...state, isLoading: false, tasks: action.payload };
     case 'FETCH_ERROR':
       return { ...state, isLoading: false, error: action.payload };
+    case 'DELETE_TASK': {
+      return {
+        ...state,
+        tasks: state.tasks.filter(task => task.id !== action.payload),
+      };
+    }
     default:
       return state;
   }
