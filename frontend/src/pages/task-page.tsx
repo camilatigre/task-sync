@@ -6,7 +6,7 @@ import { useSocket } from '@/hooks/use-sockets';
 import type { Task } from '@/types/task';
 
 export const TaskPage = () => {
-  const { tasks, dispatch, isLoading, error } = useTasks();
+  const { tasks, isLoading, error } = useTasks();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useSocket();
@@ -15,8 +15,14 @@ export const TaskPage = () => {
     console.log('Edit task', id);
   };
 
-  const handleDelete = (id: string) => {
-    dispatch({ type: 'DELETE_TASK', payload: id });
+  const handleDelete = async (id: string) => {
+    try {
+      await fetch(`http://localhost:3333/tasks/${id}`, {
+        method: 'DELETE',
+      });
+    } catch (error) {
+      console.error('Failed to delete task', error);
+    }
   };
 
   const handleCreate = async (task: Partial<Task>) => {
@@ -26,7 +32,7 @@ export const TaskPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task),
       });
-
+  
       setIsModalOpen(false);
     } catch (error) {
       console.error('Failed to create task', error);

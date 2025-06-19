@@ -4,22 +4,22 @@ import type { Task } from '@/types/task';
 import { useTasks } from '@/context/tasks/use-tasks';
 
 const socket = io('http://localhost:3333', {
-    transports: ['websocket'],
-    withCredentials: true,
-  });
+  transports: ['websocket'],
+  withCredentials: true,
+});
 
 export const useSocket = () => {
   const { dispatch } = useTasks();
 
   useEffect(() => {
     socket.on('task:created', (task: Task) => {
-        console.log('[socket] task:created', task);
-        dispatch({ type: 'CREATE_TASK', payload: task });
-      });
-      
+      console.log('[socket] task:created', task);
+      dispatch({ type: 'CREATE_TASK', payload: task });
+    });
 
-    socket.on('task:deleted', (id: string) => {
-      dispatch({ type: 'DELETE_TASK', payload: id });
+    socket.on('task:deleted', (data: { id: string }) => {
+      console.log('[socket] task:deleted', data.id);
+      dispatch({ type: 'DELETE_TASK', payload: data.id });
     });
 
     socket.on('task:updated', (task: Task) => {
