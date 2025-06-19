@@ -1,54 +1,103 @@
-# React + TypeScript + Vite
+# 📝 TaskSync
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TaskSync is a simple fullstack task management application and this is the frontend built with:
 
-Currently, two official plugins are available:
+* **Frontend**: ReactJS + TypeScript + TailwindCSS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+* List, create, edit, and delete tasks
+* Task status: `pending`, `in-progress`, `done`
+* Modal form reused for both creating and editing
+* Real-time updates with WebSocket when tasks are created, updated, or deleted
+* Centralized state management using React Context + Reducer
+* Clear loading and error handling during task fetch
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🗂️ Project Structure
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+/task-sync
+├── backend
+│   ├── src
+│   │   ├── controllers
+│   │   ├── routes
+│   │   ├── services
+│   │   ├── prisma
+│   │   └── index.ts (server setup)
+├── frontend
+│   ├── src
+│   │   ├── components
+│   │   ├── context
+│   │   ├── hooks
+│   │   ├── pages
+│   │   ├── types
+│   │   └── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 1. Clone the repository
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+git clone https://github.com/your-username/task-sync.git
+cd task-sync
 ```
+```
+
+### 2. Setup frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Access at: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🧠 Technical Decisions
+
+* **WebSocket (Socket.IO)**: real-time updates across clients via `task:created`, `task:updated`, `task:deleted`
+* **Task modal reuse**: one modal reused for both creating and editing
+* **index.ts in components**: simplifies centralized imports and folder refactors
+
+## 🧪 Testing (planned)
+
+* Backend: Jest + Supertest (controllers)
+* Frontend: React Testing Library
+
+### Planned test coverage
+
+* [ ] TaskPage integration (modal + list interaction)
+* [ ] Reducer isolated logic
+
+---
+
+## 🧩 Future Improvements
+
+### ✅ Additional Tests (Frontend)
+
+* [ ] Test `TaskPage` integration flow (modal & list)
+* [ ] Isolated reducer tests
+
+### 🔍 UX Enhancements
+
+* [ ] Toasts for success/error actions
+* [ ] Loading state on submit buttons
+* [ ] Confirmation modal before deleting
+
+### 📦 Functional Enhancements
+
+* [ ] Pagination and page control (frontend)
+* [ ] Filter by status (all, pending, etc.)
+* [ ] Improved validation on form fields
+* [ ] Search or keyword filter
+
+### ☁️ Deployment
+
+* [ ] Add Dockerfile and docker-compose for local/dev/prod environments
+* [ ] CI/CD pipeline for lint, type-check and tests
+
+
+
